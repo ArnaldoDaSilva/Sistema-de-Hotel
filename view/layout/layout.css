@@ -358,3 +358,137 @@ i {
             padding: 22px 0;
             margin-top: 60px;
         }
+         @media (max-width: 768px) {
+          nav {
+            width: 95vw;
+            margin-left: 2.5vw;
+            padding: 5px 0;
+            flex-wrap: wrap;
+          }
+          nav a {
+            margin-left: 20px;
+            font-size: 14px;
+          }
+          nav a:nth-child(5) {
+            width: 20vw;
+            margin-left: 10vw;
+          }
+          span {
+            font-size: 16px;
+            left: 10vw;
+            top: 5vh;
+          }
+          .Ap {
+            height: 60dvh;
+          }
+          .Ap p {
+            font-size: 14px;
+            width: 90vw;
+            left: 5vw;
+            top: 5vh;
+          }
+          .Ap #star {
+            left: 40vw;
+          }
+          .caixa {
+            width: 90vw;
+            left: 5vw;
+            height: 30dvh;
+            top: 70vh;
+            flex-direction: column;
+          }
+          .caixa input,
+          .caixa select {
+            width: 80vw;
+            margin-left: 0;
+            margin-bottom: 10px;
+          }
+          .caixa .btn,
+          .caixa .btn1 {
+            width: 80vw;
+            margin-left: 0;
+          }
+          .show {
+            left: 2.5vw;
+            top: 20vh;
+            width: 100px;
+          }
+          .section1 {
+            height: auto;
+            padding: 20px;
+          }
+          .section1 .imagens {
+            flex-direction: column;
+          }
+          .imagens img {
+            height: 200px;
+            width: 200px;
+            padding: 10px;
+          }
+          .section1 p {
+            font-size: 14px;
+            width: 95vw;
+          }
+          .section2 {
+            height: auto;
+            padding: 20px;
+          }
+          .section2 #quartos-container {
+            flex-direction: column;
+          }
+          .section2 #categoria-filter {
+            width: 80vw;
+            margin-right: 0;
+            margin-bottom: 10px;
+          }
+          .section3 {
+            height: auto;
+            padding: 20px;
+          }
+          .card {
+            width: 90vw;
+            margin: 10px auto;
+            display: block;
+          }
+          footer {
+            padding: 10px 0;
+            margin-top: 20px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          nav a {
+            margin-left: 10px;
+            font-size: 12px;
+          }
+          nav a:nth-child(5) {
+            width: 25vw;
+            margin-left: 5vw;
+          }
+          span {
+            font-size: 14px;
+            left: 5vw;
+          }
+          .Ap p {
+            font-size: 12px;
+            left: 2.5vw;
+          }
+          .Ap #star {
+            left: 30vw;
+            font-size: 20px;
+          }
+          .caixa {
+            height: 35dvh;
+            top: 65vh;
+          }
+          .imagens img {
+            height: 150px;
+            width: 150px;
+          }
+          .section1 p {
+            font-size: 12px;
+          }
+          .card img {
+            height: 120px;
+          }
+        }
