@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/view/layout/layout.css" />
+</head>
+<style>
+
+</style>
+
+<body>
+    <div class="section2 fadeIn ">
+        <h1>Veja os nossos quartos</h1>
+        <div id="quartos-container"></div>
+
+    </div>
+</body>
+<script src="/js/personalizacoes.js"></script>
+<script src="/js/quartos.js"></script>
+<script src="/js/card.js"></script>
+
+<script>
+    document.querySelector('.show').addEventListener('click', function () {
+        window.location.href = 'view/navbar/explore.html';
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.classList.add('fadeIn');
+    });
+</script>
+
+</html>

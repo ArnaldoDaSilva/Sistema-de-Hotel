@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    #dashboard {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: #333;
+      color: white;
+      height: 100%;
+      padding-top: 20px;
+      position: fixed;
+    }
+
+    .sidebar h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 15px;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background: #575757;
+    }
+
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+      width: 100%;
+      overflow-y: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .reserva-card {
+      background: #fff;
+      padding: 15px;
+      margin: 10px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .reserva-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .reserva-card h3 {
+      margin: 0 0 10px;
+      color: #2980b9;
+    }
+
+    .delete-btn,
+    .edit-btn {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 5px;
+      transition: 0.3s;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    .edit-btn {
+      background: #27ae60;
+      color: #fff;
+    }
+
+    .edit-btn:hover {
+      background: #1e8449;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    form input,
+    form button {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    form button {
+      background: #2980b9;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    form button:hover {
+      background: #1f6391;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="dashboard">
+    <div class="sidebar">
+      <h3>Painel Admin</h3>
+      <a href="#" onclick="mostrarConteudo('registrar')">Registrar Hóspede</a>
+      <a href="#" onclick="mostrarConteudo('lista')">Lista de Reservas</a>
+      <a href="#" onclick="mostrarConteudo('gerenciar')">Gerenciar Hóspedes</a>
+      <a href="#" onclick="mostrarConteudo('hospedes')">Visualizar Hóspedes</a>
+      <a href="#" onclick="mostrarConteudo('gereQuartos')">Gerenciar quartos</a>
+      <a href="#" onclick="mostrarConteudo('sair')">Sair</a>
+
+    </div>
+
+    <div class="content" id="conteudo">
+      <h2>Bem-vindo à Dashboard do Hotel</h2>
+      <p>Selecione uma opção no menu lateral.</p>
+    </div>
+  </div>
+
+  <script>
+    // --- Banco de dados local ---
+    let reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+    let ultimoId = parseInt(localStorage.getItem("ultimoId")) || 0;
+
+    function salvarReservas() {
+      localStorage.setItem("reserva", JSON.stringify(reservas));
+      localStorage.setItem("ultimoId", ultimoId);
+    }
+
+    // --- Registrar Hóspede ---
+    function registrarHospede(e) {
+      e.preventDefault();
+      const cliente = document.getElementById("cliente").value;
+      const email = document.getElementById("email").value;
+      const Bi = document.getElementById("Bi").value;
+      const tel = document.getElementById("telefone").value;
+      const quarto = document.getElementById("quarto").value;
+      const checkin = document.getElementById("checkin").value;
+      const checkout = document.getElementById("checkout").value;
+      const pessoa = document.getElementById("pessoa").value;
+
+      ultimoId; // gera ID auto-incrementado
+      reservas.push({ id: ultimoId, cliente, email, Bi, tel, quarto, checkin, checkout, pessoa });
+      salvarReservas();
+      ultimoId++; // gera ID auto-incrementad
+      alert("Hóspede registrado com sucesso!");
+      mostrarConteudo("lista");
+    }
+
+    // --- Deletar Hóspede ---
+    function deletarReserva(id) {
+      ultimoId--;
+      reservas = reservas.filter(r => r.id !== id);
+      // decrementa o ID
+      reservas = reservas.map((r, index) => ({ ...r, id: index + 1 })); // reatribui IDs
+
+      salvarReservas();
+      mostrarConteudo("lista");
+    }
+
+    // --- Editar Hóspede ---
+    function editarReserva(id) {
+      const reserva = reservas.find(r => r.id === id);
+      if (!reserva) return;
+
+      const novoNome = prompt("Novo nome:", reserva.cliente);
+      const novoEmail = prompt("Novo email:", reserva.email);
+      const novoQuarto = prompt("Novo quarto:", reserva.quarto);
+
+      if (novoNome && novoEmail && novoQuarto) {
+        reserva.cliente = novoNome;
+        reserva.email = novoEmail;
+        reserva.quarto = novoQuarto;
+        reserva.checkin = prompt("Novo check-in:", reserva.checkin) || reserva.checkin;
+        reserva.checkout = prompt("Novo check-out:", reserva.checkout) || reserva.checkout;
+        reserva.pessoa = prompt("Novo número de pessoas:", reserva.pessoa) || reserva.pessoa;
+        reservas = reservas.map(r => r.id === id ? reserva : r);
+        alert("Reserva atualizada com sucesso!");
+        salvarReservas();
+        mostrarConteudo("gerenciar");
+      }
+    }
+
+    // --- Lista de Reservas ---
+function mostrarListaReservas() {
+
+  const conteudo = document.getElementById("conteudo");
+  const reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+
+  conteudo.innerHTML = `<h2>Lista de Reservas</h2>`;
+
+  if (reservas.length === 0) {
+    conteudo.innerHTML += "<p>Nenhuma reserva encontrada.</p>";
+    return;
+  }
+
+  reservas.forEach(reserva => {
+
+    const card = document.createElement("div");
+    card.className = "reserva-card";
+
+    card.innerHTML = `
+      <h3>${reserva.cliente}</h3>
+      <p><strong>Código:</strong> ${reserva.codigo}</p>
+      <p><strong>Email:</strong> ${reserva.email}</p>
+      <p><strong>BI:</strong> ${reserva.Bi}</p>
+      <p><strong>Quarto:</strong> ${reserva.quarto}</p>
+      <p><strong>Check-in:</strong> ${reserva.checkin}</p>
+      <p><strong>Check-out:</strong> ${reserva.checkout}</p>
+      <p><strong>Pessoas:</strong> ${reserva.pessoa}</p>
+      <p><strong>Status:</strong> ${reserva.status}</p>
+      <button onclick="confirmarReserva(${reserva.id})" class="edit-btn">Confirmar</button>
+      <button onclick="cancelarReserva(${reserva.id})" class="delete-btn">Cancelar</button>
+    `;
+
+    conteudo.appendChild(card);
+  });
+}
+function confirmarReserva(id) {
+  let reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+
+  reservas = reservas.map(r => {
+    if (r.id === id) {
+      r.status = "Confirmada";
+    }
+    return r;
+  });
+
+  localStorage.setItem("reserva", JSON.stringify(reservas));
+  mostrarListaReservas();
+}
+
+function cancelarReserva(id) {
+  let reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+
+  reservas = reservas.map(r => {
+    if (r.id === id) {
+      r.status = "Cancelada";
+    }
+    return r;
+  });
+
+  localStorage.setItem("reserva", JSON.stringify(reservas));
+  mostrarListaReservas();
+}
+    // --- Gerenciar Hóspedes ---
+    function mostrarGerenciamento() {
+      const conteudo = document.getElementById("conteudo");
+      conteudo.innerHTML = `<h2>Gerenciar Hóspedes</h2>`;
+      reservas.forEach(reserva => {
+        const card = document.createElement("div");
+        card.className = "reserva-card";
+        card.innerHTML = `
+        <h3>${reserva.cliente} (ID: ${reserva.id})</h3>
+        <p><strong>Email:</strong> ${reserva.email}</p>
+        <p><strong>BI:</strong> ${reserva.Bi}</p>
+        <p><strong>Quarto:</strong> ${reserva.quarto}</p>
+        <p><strong>Check-in:</strong> ${reserva.checkin}</p>
+        <p><strong>Check-out:</strong> ${reserva.checkout}</p>
+        <p><strong>Pessoas:</strong> ${reserva.pessoa}</p>
+        <button class="edit-btn" onclick="editarReserva(${reserva.id})">Editar</button>
+        <button class="delete-btn" onclick="deletarReserva(${reserva.id})">Eliminar</button>
+      `;
+        conteudo.appendChild(card);
+      });
+    }
+    function mostrarQuartos(secao) {
+      window.location.href = "adminQuartos.html";
+    }
+
+    // --- Trocar Conteúdo ---
+    function mostrarConteudo(secao) {
+      let conteudo = document.getElementById("conteudo");
+
+      if (secao === "registrar") {
+        conteudo.innerHTML = `
+        <h2>Registrar Hóspede</h2>
+        <form onsubmit="registrarHospede(event)">
+          <input type="text" id="cliente" placeholder="Nome do hóspede" required>
+          <input type="email" id="email" placeholder="Email" required>
+          <input type="text" id="Bi" placeholder="Número do BI" required>
+          <input type="text" id="telefone" placeholder="Telefone">
+           <input type="text" id="quarto" placeholder="Quarto" required>
+          <input type="date" id="checkin" required>
+          <input type="date" id="checkout" required>
+          <input type="number" id="pessoa" min="1" max="5" placeholder="Número de pessoas" required>
+          <button type="submit">Registrar</button>
+        </form>
+
+      `;
+      }
+      else if (secao === "lista") {
+        mostrarListaReservas();
+      }
+      else if (secao === "gerenciar") {
+        mostrarGerenciamento();
+      } else if (secao == "hospedes") {
+        window.location.href = "/view/hospedes.html";
+      } else if (secao == "gereQuartos") {
+        mostrarQuartos();
+      }
+      else if (secao === "sair") {
+        conteudo.innerHTML = "<h2>Sair</h2><p>Você saiu do sistema.</p>";
+        window.location.href = "login.html";
+      }
+    }
+  </script>
+
+</body>
+
+</html>

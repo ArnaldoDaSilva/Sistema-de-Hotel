@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <title>Dashboard - Perfil do Cliente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Navbar superior */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .navbar-user {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar-user a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .navbar-user a:hover {
+            opacity: 0.8;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin: 15px 0;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Seção Perfil */
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .profile-details h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-group {
+            margin-bottom: 20px;
+        }
+
+        .info-group label {
+            display: block;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-group p {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        /* Grid de Reservas */
+        .reservations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+        }
+
+        .reservation-card {
+            background: white;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservation-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .reservation-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .reservation-details {
+            margin: 15px 0;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            color: #666;
+        }
+
+        .detail-label {
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .ticket {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .ticket-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .reservation-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .reservation-actions .btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        /* Seção Pagamentos */
+        .payment-method {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .payment-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .notification {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .notification.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left-color: #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .reservation-card {
+                grid-column: 1;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .user-siglas {
+                color: white;
+                font-size: medium;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2><i class="fas fa-hotel"></i> Hotel Paraiso</h2>
+            <ul>
+                <li><a class="nav-link active" onclick="showSection('perfil')"><i class="fas fa-user"></i> Meu
+                        Perfil</a></li>
+                <li><a class="nav-link" onclick="showSection('reservas')"><i class="fas fa-calendar-check"></i> Minhas
+                        Reservas</a></li>
+                <li><a class="nav-link" onclick="showSection('pagamentos')"><i class="fas fa-credit-card"></i>
+                        Pagamentos</a></li>
+                <li><a class="nav-link" onclick="showSection('notificacoes')"><i class="fas fa-bell"></i>
+                        Notificações</a></li>
+                <li><a href="http://127.0.0.1:5501/index.html" style="margin-top: 30px; color: #ffaaaa;"><i
+                            class="fas fa-sign-out-alt"></i> Sair</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Bem-vindo</h1>
+                <div class="user-info">
+                    <span id="user-name"></span>
+                    <div class="user-avatar">
+                        <p id="user-siglas"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Perfil -->
+            <section id="perfil" class="section active">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar"><i class="fas fa-user"></i></div>
+                        <div class="profile-details">
+                            <!-- <div style="position: relative; display: inline-block; margin-bottom: 20px;">
+                                <img id="profile-img" src="https://via.placeholder.com/120" alt="Profile" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; display: block;">
+                                <input type="file" id="img-upload" accept="image/*" style="display: none;">
+                                <button class="btn" style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;" onclick="document.getElementById('img-upload').click()"><i class="fas fa-camera"></i></button>
+                                <button class="btn btn-danger" style="position: absolute; bottom: 0; left: 0; width: 40px; height: 40px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;" onclick="removeProfileImage()"><i class="fas fa-trash"></i></button>
+                            </div> -->
+                            <script>
+                                document.getElementById('img-upload').addEventListener('change', function (e) {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = function (event) {
+                                            document.getElementById('profile-img').src = event.target.result;
+                                            localStorage.setItem('profileImage', event.target.result);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                });
+
+                                function removeProfileImage() {
+                                    document.getElementById('profile-img').src = 'https://via.placeholder.com/120';
+                                    localStorage.removeItem('profileImage');
+                                }
+
+                                window.addEventListener('load', function () {
+                                    const savedImage = localStorage.getItem('profileImage');
+                                    if (savedImage) {
+                                        document.getElementById('profile-img').src = savedImage;
+                                    }
+                                });
+                            </script>
+                            <h2 id="user"></h2>
+                            <p>Cliente ativo desde 2023</p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div>
+                            <div class="info-group">
+                                <label>Email</label>
+                                <p id="user-email"></p>
+                            </div>
+                            <div class="info-group">
+                                <label>Telemóvel</label>
+                                <p id="user-telefone"></p>
+                            </div>
+                            <div class="info-group">
+                                <label>Data de Nascimento</label>
+                                <p id="user-data"></p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="info-group">
+                                <label>Morada</label>
+                                <p id="user-morada"></p>
+                            </div>
+                            <div class="info-group">
+                                <label>Bilhete de Identidade</label>
+                                <p id="user-bi"></p>
+                            </div>
+                            <div class="info-group">
+                                <label>Membro desde</label>
+                                <p>10 de Janeiro de 2023</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="btn" onclick="enableEditMode()"><i class="fas fa-edit"></i> Editar
+                            Perfil</button>
+                        <button class="btn" id="saveBtn" style="display: none;" onclick="saveProfile()"><i
+                                class="fas fa-save"></i> Guardar Alterações</button>
+                        <button class="btn btn-danger" id="cancelBtn" style="display: none;" onclick="cancelEdit()"><i
+                                class="fas fa-times"></i> Cancelar</button>
+                    </div>
+
+                    <script>
+                        let i = 1;
+                        function enableEditMode() {
+                            const fields = ['user-nome', 'user-email', 'user-telefone', 'user-data', 'user-morada', 'user-bi'];
+
+                            fields.forEach(id => {
+                                const element = document.getElementById(id);
+                                if (element) {
+                                    const value = element.textContent;
+                                    element.innerHTML = `<input type="text" class="edit-input" value="${value}" data-field="${id}">`;
+                                }
+                            });
+
+                            document.querySelector('button[onclick="enableEditMode()"]').style.display = 'none';
+                            document.getElementById('saveBtn').style.display = 'inline-block';
+                            document.getElementById('cancelBtn').style.display = 'inline-block';
+                        }
+
+                        function saveProfile() {
+                            const userData = localStorage.getItem("usuarioLogado");
+                            if (userData) {
+                                const user = JSON.parse(userData);
+                                const inputs = document.querySelectorAll('.edit-input');
+
+                                inputs.forEach(input => {
+                                    const field = input.getAttribute('data-field');
+                                    const value = input.value;
+
+                                    if (field === 'user-nome') user.nome = value;
+                                    else if (field === 'user-email') user.email = value;
+                                    else if (field === 'user-telefone') user.telefone = value;
+                                    else if (field === 'user-data') user.data = value;
+                                    else if (field === 'user-morada') user.morada = value;
+                                    else if (field === 'user-bi') user.Bi = value;
+                                });
+
+                                localStorage.setItem("usuarioLogado", JSON.stringify(user));
+                                location.reload();
+                            }
+                        }
+
+                        function cancelEdit() {
+                            location.reload();
+                        }
+                    </script>
+
+                    <style>
+                        .edit-input {
+                            width: 100%;
+                            padding: 8px;
+                            border: 1px solid #667eea;
+                            border-radius: 5px;
+                            font-size: 16px;
+                        }
+                    </style>
+                </div>
+            </section>
+
+            <!-- Seção Reservas -->
+            <div id="listaReservasCliente"></div>
+            <!-- Seção Pagamentos -->
+            <section id="pagamentos" class="section">
+                <h2 style="margin-bottom: 20px; color: #333;"><i class="fas fa-user"></i> Métodos de Pagamento</h2>
+
+                <div style="margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 15px; color: #333;">Cartões Registados</h3>
+
+                    <div class="payment-method">
+                        <div class="payment-info">
+                            <h3>Visa Débito</h3>
+                            <p>**** **** **** 1234</p>
+                            <small>Válido até 12/2026</small>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn" style="padding: 8px 15px;">Predefinido</button>
+                            <button class="btn btn-danger" style="padding: 8px 15px;">Remover</button>
+                        </div>
+                    </div>
+
+                    <div class="payment-method">
+                        <div class="payment-info">
+                            <h3>MasterCard Crédito</h3>
+                            <p>**** **** **** 5678</p>
+                            <small>Válido até 08/2025</small>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn" style="padding: 8px 15px;">Usar</button>
+                            <button class="btn btn-danger" style="padding: 8px 15px;">Remover</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 15px; color: #333;">Adicionar Novo Método de Pagamento</h3>
+                <div class="payment-form">
+                    <div class="form-group">
+                        <label>Tipo de Pagamento</label>
+                        <select>
+                            <option>Cartão de Débito</option>
+                            <option>Cartão de Crédito</option>
+                            <option>Conta Bancária</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Titular do Cartão</label>
+                        <input type="text" placeholder="Nome completo do titular">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número do Cartão</label>
+                        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Válido até</label>
+                            <input type="text" placeholder="MM/AA">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" placeholder="000" maxlength="3">
+                        </div>
+                    </div>
+
+                    <button class="btn"><i class="fas fa-user"></i> Adicionar Cartão</button>
+                </div>
+            </section>
+
+            <!-- Seção Notificações -->
+            <section id="notificacoes" class="section">
+                <h2 style="margin-bottom: 20px; color: #333;"><i class="fas fa-bell"></i> Notificações</h2>
+
+                <div style="background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                    <div style="border-bottom: 1px solid #eee; padding: 20px;">
+
+                    </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+
+        const userData = localStorage.getItem("usuarioLogado");
+        if (userData) {
+            const user = JSON.parse(userData);
+            document.getElementById("user-name").textContent = user.nome;
+            document.getElementById("user").textContent = user.nome;
+            document.getElementById("user-email").textContent = user.email;
+            document.getElementById("user-siglas").textContent = user.siglas;
+            document.getElementById("user-telefone").textContent = user.telefone;
+            document.getElementById("user-data").textContent = user.data;
+            document.getElementById("user-morada").textContent = user.morada;
+            document.getElementById("user-bi").textContent = user.Bi;
+
+        }
+
+        function showSection(sectionId) {
+            // Esconder todas as seções
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remover classe active de todos os links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Mostrar seção clicada
+            document.getElementById(sectionId).classList.add('active');
+
+            // Adicionar classe active ao link clicado
+            event.target.classList.add('active');
+        }
+        function carregarReservasCliente() {
+
+            const userData = localStorage.getItem("usuarioLogado");
+            if (!userData) return;
+
+            const user = JSON.parse(userData);
+            const reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+
+            const minhasReservas = reservas.filter(r => r.email === user.email);
+
+            const container = document.getElementById("listaReservasCliente");
+            container.innerHTML = "";
+
+            if (minhasReservas.length === 0) {
+                container.innerHTML = "<p>Você ainda não possui reservas.</p>";
+                return;
+            }
+
+            minhasReservas.forEach(reserva => {
+
+                const card = document.createElement("div");
+                card.className = "reservation-card";
+
+                card.innerHTML = `
+  <h3>${reserva.quarto}</h3>
+  <span class="reservation-status">${reserva.status}</span>
+
+  <div class="ticket">
+    <div>Código da Reserva</div>
+    <div class="ticket-number">${reserva.codigo}</div>
+  </div>
+
+  <div class="reservation-details">
+    <div class="detail-row">
+      <span>Check-in:</span>
+      <span>${reserva.checkin}</span>
+    </div>
+    <div class="detail-row">
+      <span>Check-out:</span>
+      <span>${reserva.checkout}</span>
+    </div>
+    <div class="detail-row">
+      <span>Pessoas:</span>
+      <span>${reserva.pessoa}</span>
+    </div>
+  </div>
+
+  <button class="btn" onclick="gerarPDF('${reserva.codigo}')">
+    <i class="fa fa-file-pdf"></i> Baixar 
+  </button>
+  <button class="btn btn-danger" onclick="cancelarReservaCliente(${reserva.id})">
+    <i class="fa fa-times-circle"></i> Cancelar Reserva
+</button>
+`;
+function cancelarReservaCliente(id) {
+
+  let reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+  const user = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  reservas = reservas.map(r => {
+    if (r.id === id && r.email === user.email) {
+      r.status = "Cancelada pelo Cliente";
+    }
+    return r;
+  });
+
+  localStorage.setItem("reserva", JSON.stringify(reservas));
+  carregarReservasCliente();
+}
+                container.appendChild(card);
+            });
+        }
+
+        carregarReservasCliente();
+        function gerarPDF(codigoReserva) {
+
+            const { jsPDF } = window.jspdf;
+
+            const reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+            const reserva = reservas.find(r => r.codigo === codigoReserva);
+
+            if (!reserva) {
+                alert("Reserva não encontrada!");
+                return;
+            }
+
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text("Comprovativo de Reserva", 20, 20);
+
+            doc.setFontSize(12);
+            doc.text(`Código: ${reserva.codigo}`, 20, 40);
+            doc.text(`Cliente: ${reserva.cliente}`, 20, 50);
+            doc.text(`Email: ${reserva.email}`, 20, 60);
+            doc.text(`Quarto: ${reserva.quarto}`, 20, 70);
+            doc.text(`Check-in: ${reserva.checkin}`, 20, 80);
+            doc.text(`Check-out: ${reserva.checkout}`, 20, 90);
+            doc.text(`Número de Pessoas: ${reserva.pessoa}`, 20, 100);
+            doc.text(`Status: ${reserva.status}`, 20, 110);
+            doc.text(`Data de Emissão: ${new Date().toLocaleDateString()}`, 20, 120);
+
+            doc.save(`Reserva-${reserva.codigo}.pdf`);
+        }
+        
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+
+</html>

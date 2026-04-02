@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Explore Mais - Hotel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Swiper Carousel CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        .navbar {
+            background: #003366;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .explore-btn {
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .explore-btn:hover {
+            background: #e67e22;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-section {
+            max-width: 1100px;
+            margin: 2rem auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+
+        }
+
+        .explore-section.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .explore-card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            padding: 1.2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explore-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.13);
+            background: #eaf6ff;
+        }
+
+        .explore-card i {
+            font-size: 2rem;
+            color: #003366;
+            margin-bottom: 0.7rem;
+        }
+
+        .explore-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .explore-card p {
+            margin: 0;
+            color: #555;
+            font-size: 0.98rem;
+        }
+
+        /* Carousel styles */
+        .swiper {
+            width: 100%;
+            height: 260px;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .swiper-slide img:hover {
+            transform: scale(1.07);
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #ff9800 !important;
+        }
+
+        @media (max-width: 700px) {
+            .explore-section {
+                padding: 1rem;
+            }
+
+            .explore-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1>Hotel Paradise</h1>
+        <button class="explore-btn" id="exploreBtn">Explore Mais</button>
+    </nav>
+    <section class="explore-section" id="exploreSection">
+        <!-- Carousel -->
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+                        alt="Viagem Hotel"></div>
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80"
+                        alt="Atividades"></div>
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80"
+                        alt="Voos"></div>
+                <div class="swiper-slide"><img
+                        src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80"
+                        alt="Empresas Associadas"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <!-- Informações -->
+        <div class="explore-grid">
+            <div class="explore-card">
+                <i class="fas fa-plane-departure"></i>
+                <h3>Voos & Transfers</h3>
+                <p>Reserve voos e transfers diretamente com nosso hotel para uma experiência sem preocupações.</p>
+            </div>
+            <div class="explore-card">
+                <i class="fas fa-swimmer"></i>
+                <h3>Atividades Internas</h3>
+                <p>Piscinas, spa, academia, jogos e entretenimento para todas as idades dentro do hotel.</p>
+            </div>
+            <div class="explore-card">
+                <i class="fas fa-hiking"></i>
+                <h3>Passeios & Aventuras</h3>
+                <p>Explore trilhas, passeios de barco, city tours e experiências culturais exclusivas.</p>
+            </div>
+            <div class="explore-card">
+                <i class="fas fa-building"></i>
+                <h3>Empresas Associadas</h3>
+                <p>Parcerias com agências de turismo, restaurantes e empresas locais para benefícios exclusivos.</p>
+            </div>
+            <div class="explore-card">
+                <i class="fas fa-car"></i>
+                <h3>Aluguel de Carros</h3>
+                <p>Facilidade para locação de veículos com descontos especiais para hóspedes do hotel.</p>
+            </div>
+            <div class="explore-card">
+                <i class="fas fa-utensils"></i>
+                <h3>Gastronomia</h3>
+                <p>Restaurantes internos e experiências gastronômicas regionais para todos os gostos.</p>
+            </div>
+        </div>
+    </section>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        // Swiper Carousel
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+            },
+        });
+
+        // Explore button logic
+        const exploreBtn = document.getElementById('exploreBtn');
+        const exploreSection = document.getElementById('exploreSection');
+        exploreBtn.addEventListener('click', () => {
+            exploreSection.classList.toggle('active');
+            window.scrollTo({ top: exploreSection.offsetTop - 40, behavior: 'smooth' });
+        });
+    </script>
+</body>
+
+</html>

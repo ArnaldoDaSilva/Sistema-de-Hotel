@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contato</title>
+  <style>
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      padding: 24px;
+    }
+
+    .contacto h1 {
+      display: flex;
+      justify-content: left;
+      margin: 20px;
+      font-size: 40px;
+    }
+
+    .contacto a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      width: 20vw;
+      background: linear-gradient(to right, #1819274c 50%, #1E4538);
+      margin: 0 auto;
+
+      align-items: center;
+      height: 7vh;
+      border-radius: 10px;
+
+    }
+
+    .contacto i {
+      margin-left: 20px;
+      color: #000000;
+    }
+
+    .contacto a:hover i {
+      color: red;
+    }
+
+    .contacto a:hover {
+      background-color: transparent;
+      border: 3px solid #1E4538;
+      color: #5cd0a9;
+
+      transition: 0.1s ease-in-out;
+    }
+
+    .contacto,
+    .Sobre {
+      height: 55vh;
+      border: 2px solid #1E4538;
+      border-radius: 20px;
+      margin: 20px;
+      width: 45%;
+      background: rgba(29, 31, 52, 0.4);
+
+    }
+
+    .contacto:hover,
+    .Sobre:hover {
+
+      transition: 0.5s ease-in-out;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Fale comigo</h1>
+
+  <!-- Botões diretos -->
+  <div class="row">
+    <!-- E-mail direto com assunto e mensagem -->
+    <div class="campo">
+      <div class="contacto box zoom-in" id="contacto" action="view\enviar.php" method="POST">
+        <h1>Contactos</h1>
+        <p></p>
+        <a href="mailto:as3904844@gmail.com"> Enviar um E-mail <i class=" fas fa-envelope"> </i> </a><br>
+        <a href="tel:+258860162805"> Ligar para Contato<i class="fas fa-phone-alt"></i> </a><br>
+        <a href="https://wa.me/860162805" target=""> Conversar no WhatsApp<i class="fab fa-whatsapp"></i></a><br>
+        <a href="#">Mozambique, Maputo <i class="fas fa-map-location-dot"></i></a>
+      </div>
+    </div>
+    </form>
+
+    <script>
+      // CONFIGURE AQUI
+      const EMAIL_DESTINO = "as3904844@gmail.com";
+      const WHATS_NUMERO = "258860162805"; // formato internacional, sem + nem espaços
+
+      function montaTexto() {
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const msg = document.getElementById('mensagem').value.trim();
+        const bloco = `Nome: ${nome}\nEmail: ${email}\n\nMensagem:\n${msg}`;
+        return encodeURIComponent(bloco);
+      }
+
+      document.getElementById('enviarEmail').addEventListener('click', () => {
+        const assunto = encodeURIComponent('Contato pelo site');
+        const corpo = montaTexto();
+        const link = `mailto:${EMAIL_DESTINO}?subject=${assunto}&body=${corpo}`;
+        window.location.href = link;
+      });
+
+      document.getElementById('enviarWhats').addEventListener('click', () => {
+        const texto = montaTexto();
+        const link = `https://wa.me/${WHATS_NUMERO}?text=${texto}`;
+        window.open(link, '_blank', 'noopener');
+      });
+    </script>
+    form>input*4p>input:button
+</body>
+
+</html>

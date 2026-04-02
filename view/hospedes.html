@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóspedes</title>
+    <link rel="stylesheet" href="/view/layout/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        form input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            background: #2980b9;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1f6390;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2980b9;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            padding: 5px 10px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+    <h2> Gerenciar Hóspedes</h2>
+
+    <!-- Formulário -->
+    <form id="formHospede">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="email" name="email" placeholder="Email">
+        <input type="text" name="telefone" placeholder="Telefone">
+        <input type="text" name="documento" placeholder="Documento">
+        <button type="submit">Salvar</button>
+    </form>
+
+    <!-- Lista -->
+    <table id="tabelaHospedes">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Documento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Hóspedes inseridos dinamicamente -->
+        </tbody>
+    </table>
+
+    <script>
+        // Recupera reservas existentes
+        let reservas = JSON.parse(localStorage.getItem("reserva")) || [];
+
+        // Recupera hóspedes existentes ou inicia vazio
+        let hospedes = JSON.parse(localStorage.getItem("hospedes")) || [];
+        // Inicializa com dados dos usuários clientes do localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        users.forEach((u) => {
+            if (u.role === "cliente" && !hospedes.find(h => h.documento === u.Bi)) {
+                hospedes.push({
+                    id: hospedes.length + 1,
+                    nome: u.nome,
+                    email: u.email,
+                    telefone: u.telefone || "",
+                    documento: u.Bi
+                });
+            }
+        });
+        // Se houver reservas, converte para hóspedes automaticamente
+        reservas.forEach((r, index) => {
+            if (!hospedes.find(h => h.documento === r.Bi)) {
+                hospedes.push({
+                    id: hospedes.length + 1,
+                    nome: r.cliente,
+                    email: r.email,
+                    telefone: r.telefone || "", // caso não tenha telefone
+                    documento: r.Bi
+                });
+            }
+        });
+
+        salvarHospedes();
+
+        function salvarHospedes() {
+            localStorage.setItem("hospedes", JSON.stringify(hospedes));
+        }
+
+        // Renderizar hóspedes na tabela
+        function renderHospedes() {
+            const tbody = document.querySelector('#tabelaHospedes tbody');
+            tbody.innerHTML = '';
+            hospedes.forEach(hospede => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${hospede.id}</td>
+                <td>${hospede.nome}</td>
+                <td>${hospede.email}</td>
+                <td>${hospede.telefone}</td>
+                <td>${hospede.documento}</td>
+                <td><button class="delete-btn" onclick="deletarHospede(${hospede.id})">Excluir</button></td>
+            `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Deletar hóspede
+        function deletarHospede(id) {
+            hospedes = hospedes.filter(h => h.id !== id);
+            salvarHospedes();
+            renderHospedes();
+        }
+
+        // Formulário para adicionar hóspede
+        document.getElementById("formHospede").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const data = new FormData(this);
+            const novoHospede = {
+                id: hospedes.length ? hospedes[hospedes.length - 1].id + 1 : 1,
+                nome: data.get("nome"),
+                email: data.get("email"),
+                telefone: data.get("telefone"),
+                documento: data.get("documento")
+            };
+            hospedes.push(novoHospede);
+            salvarHospedes();
+            renderHospedes();
+            this.reset();
+        });
+
+        // Inicializar
+        renderHospedes();
+    </script>
+</body>
+
+</html>

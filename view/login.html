@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Hotel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .login-container {
+            max-width: 350px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 32px 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .login-container input[type="email"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container .google-btn {
+            background: #fff;
+            color: #444;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .login-container .google-btn img {
+            width: 20px;
+            margin-right: 8px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 16px 0;
+            color: #aaa;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Entrar no Sistema do Hotel</h2>
+        <form action="" method="POST" id="loginForm">
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="password" name="password" placeholder="password" required>
+            <button type="submit">Entrar</button>
+            <p class="error" id="errorMsg"></p>
+        </form>
+        <div class="divider">ou</div>
+        <form action="/Hotel/controller/google_login.php" method="POST">
+            <button type="submit" class="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                Entrar com Google
+            </button>
+        </form>
+        <div class="register-link">
+            Não tem conta? <a href="\view\register.html">Registre-se</a>
+        </div>
+    </div>
+</body>
+<script>
+    const users = [
+        { email: "admin@empresa.com", password: "12345", role: "funcionario", nome: "Administrador" },
+        { email: "cliente@empresa.com", password: "abcde", role: "cliente", nome: "Arnaldo Silva", siglas: "AS", Bi: "110107464685C", data: "22 de Abril de 2004", telefone: "860162805", morada: "Rua do Paraíso, 123" },
+        { email: "cliente2@empresa.com", password: "12345", role: "cliente", nome: "Guerra Arthur", siglas: "GA", Bi: "0987654321", data: "15 de Março de 1990", telefone: "847210356", morada: "Avenida dos Sonhos, 456" },
+        { email: "natalinoGG@gmail.com", password: "cunhado", role: "cliente", nome: "Natalino", siglas: "NS", Bi: "cunhadoSafado" },
+        { email: "henriques@gmail.com", password: "Admin", role: "funcionario", nome: "Henriques", siglas: "HJ", Bi: "colega" }
+
+    ];  
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            // Salva no LocalStorage
+            localStorage.setItem("usuarioLogado", JSON.stringify(user));
+
+            // Redireciona conforme o tipo
+            if (user.role === "cliente") {
+                window.location.href = "/index.html";
+            } else {
+
+                window.location.href = "/view/administrador.html";
+            }
+
+        }
+        else {
+            errorMsg.textContent = "Email ou senha incorretos!";
+            errorMsg.style.color = "red";
+            errorMsg.style.textAlign = "center";
+        }
+        if (localStorage.getItem("usuarioLogado") === "false") {
+            window.location.href = "/index.html";
+        }
+    });
+
+</script>
+</script>
+
+</html>

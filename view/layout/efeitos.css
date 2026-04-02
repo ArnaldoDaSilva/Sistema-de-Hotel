@@ -1,0 +1,127 @@
+.card-spotlight {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid #222;
+  background-color: #111;
+  padding: 2rem;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spotlight-color: rgba(255, 255, 255, 0.05);
+}
+
+.card-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.card-spotlight:hover::before,
+.card-spotlight:focus-within::before {
+  opacity: 0.6;
+}
+a {
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  position: relative;
+
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  background-color: rgba(166, 166, 166, 0.4); /* #A6A6A6 with opacity */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -0.25em;
+  height: 2px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+a:hover::after {
+  width: 100%;
+  animation: pulse11 1s;
+  box-shadow: 0 0 0 1em transparent;
+}
+
+@keyframes pulse11 {
+  0% {
+    box-shadow: 0 0 0 0 rgba(166, 166, 166, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 1em transparent;
+  }
+}
+.zoomIn {
+    animation: zoomIn 1s forwards;
+  }
+
+  @keyframes zoomIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .zoomOut {
+    animation: zoomOut 1s forwards;
+  }
+
+  @keyframes zoomOut {
+    to {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  }
+  
+  .hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s ease;
+  }
+
+  /* quando aparece */
+  .show {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .fade {
+    width: 200px;
+    height: 200px;
+    margin: 50px auto;
+    background: #e74c3c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fadeOut {
+    animation: fadeOut 2s forwards;
+  }
+
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+    }
+  }

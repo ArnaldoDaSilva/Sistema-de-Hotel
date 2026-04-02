@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração de Quartos</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/view/layout/layout.css" />
+  <link rel="stylesheet" href="/view/layout/efeitos.css" />
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+
+  h2 {
+    color: #333;
+  }
+
+  form input,
+  form button {
+    padding: 8px;
+    margin: 5px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+
+  th {
+    background: #eee;
+  }
+
+  button {
+    cursor: pointer;
+  }
+</style>
+
+<body>
+  <nav>
+    <div id="userArea">
+      <a href="#">Login <i class="fa fa-user-lock"></i></a>
+    </div>
+  </nav>
+  <h2 style="margin: 20dvh;""><i class=" fas fa-bed"></i> Administração - Quartos do Hotel</h2>
+
+  <button id="btnAdicionar"><i class="fas fa-plus"></i> Adicionar Quarto</button>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+
+      <h3>Adicionar Novo Quarto</h3>
+      <form id="formQuarto">
+        <input type="number" name="numero" placeholder="Número do quarto" required>
+        <input type="text" name="tipo" placeholder="Tipo (Standard/Luxo/Suíte)" required>
+        <input type="number" name="preco" placeholder="Preço / noite" required>
+        <select name="status">
+          <option value="Disponível">Disponível</option>
+          <option value="Ocupado">Ocupado</option>
+        </select>
+        <input type="text" name="imagem" placeholder="URL da imagem" required>
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
+    <div class="lista" id="lista"></div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+  <script src="/js/personalizacoes.js"></script>
+  <script src="/js/card.js"></script>
+  <script src="/js/gestaodeContas.js"></script>
+</body>
+
+</html>
