@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="view\layout\animation.css" />
+    <link rel="stylesheet" href="animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="view\layout\layout.css" />
+    <link rel="stylesheet" href="/view/layout/efeitos.css" />
+    <title>Hotel</title>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Home <i class="fas fa-home"></i></a>
+        <a href="view\navbar\Contacto.html">Contact <i class="fas fa-phone"></i></a>
+        <a href="view\navbar\Sobre.html">About <i class="fas fa-hands-helping"></i></a>
+        <a href="view\navbar\Services.html">Services <i class="fab fa-servicestack"></i></a>
+        <div id="userArea">
+            <a href="\view\login.html">Login <i class="fa fa-user-lock"></i></a>
+        </div>
+        <div id="sair"></div>
+    </nav>
+    <div class="Ap fadeIn">
+        <div class="wrapper1">
+            <svg>
+                <text x="50%" y="50%" dy=".35em" text-anchor="middle">
+                    Bem Vindo ao Hotel Paraíso
+
+                </text>
+            </svg>
+        </div>
+        <i class=" fa fa-star" id="star"></i>
+        <i class=" fa fa-star" id="star"></i>
+        <i class=" fa fa-star" id="star"></i>
+        <i class=" fa fa-star" id="star"></i>
+        <i class=" fa fa-star" id="star"></i>
+        <span>O lugar ideal para teu descanso <i class="fa fa-face"></i> </span>
+        <button class="show">Explore mais <i class="fa fa-location-arrow"></i></button>
+        <p>
+            Reserve agora e descubra como é se sentir em casa, mesmo estando longe
+            dela
+        </p>
+
+    </div>
+    <div class="caixa">
+        <!-- <h2>Reserve o seu quarto</h2> -->
+        <!-- <input type="text" id="Bi" name="Bi" placeholder=" Digite o seu BI" title="Bilhete de Identidade" required/> -->
+        <select  id="quarto" name="quarto" required title="Quartos para alugar" placeholder="selecione um quarto">Selecione</select>
+
+        <input type="date" id="check-in" placeholder="check-in" name="check-in" required title="check-in" />
+        <input type="date" id="check-out" placeholder="check-out" name="check-out" required title="check-out" />
+        <input type="number" id="hospedes" placeholder="Nr_hospedes" name="hospedes" required  title="Numero de Hospedes" />
+        <button type="submit" class="btn" id="btnReserva" onclick="enviarModulos()">Reservar Agora <i class="fa fa-calendar-check" title="Reservar "></i></button>
+
+    </div>
+    
+    <div class="section1">
+        <h1 style="font-size: 50px; margin: 20px; position: relative; top: 20px">
+            Bem Vindo ao Hotel Paraíso
+        </h1>
+        <img src="" alt="" />
+        <p>
+            No Hotel Paraíso, cada detalhe foi pensado para proporcionar a você
+            momentos únicos de conforto, tranquilidade e bem-estar. Localizado em
+            uma região privilegiada, unimos hospitalidade calorosa, acomodações
+            modernas e serviços de qualidade para transformar sua estadia em uma
+            experiência inesquecível.
+        </p>
+        <div class="imagens">
+            <img src="imagens\1.jpg" alt="imagem de um quarto 1" />
+            <img src="imagens\2.jpg" alt=" imagem de um quarto 2" />
+            <img src="imagens\3.jpg" alt="imagem de um quarto 3" />
+        </div>
+        <button class="btn1">Saiba Mais <i class="fa fa-plus-circle"></i></button>
+    </div>
+    <div class="section2 ">
+        <h1>Veja os nossos quartos</h1>
+        <div id="quartos-container"></div>
+
+    </div>
+
+    </div>
+    <footer style="margin: 0;">
+        &copy; 2024 Hotel Paraíso de Moçambique. Todos os direitos reservados.
+    </footer>
+</body>
+<script src="js\personalizacoes.js"></script>
+<script src="js\quartos.js"></script>
+<script src="js\card.js"></script>
+<script src="js\gestaodeContas.js"></script>
+
+<script>
+    function gerarCodigoReserva() {
+        const data = new Date();
+        const timestamp = data.getTime(); // milissegundos únicos
+        const random = Math.floor(Math.random() * 1000);
+        return "RES-" + timestamp + "-" + random;
+    }
+    document.querySelector('.show').addEventListener('click', function () {
+        window.location.href = '/view/navbar/explore.html';
+    });
+    document.querySelector('.btn1').addEventListener('click', function () {
+        window.location.href = 'https://br.trip.com';
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.classList.add('fadeIn');
+    });
+</script>
+
+</html>
