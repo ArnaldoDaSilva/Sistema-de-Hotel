@@ -129,10 +129,10 @@
 
             // Redireciona conforme o tipo
             if (user.role === "cliente") {
-                window.location.href = "Sistema-de-Hotel/index.html";
+                window.location.href = "/index.html";
             } else {
 
-                window.location.href = "Sistema-de-Hotel/view/administrador.html";
+                window.location.href = "/view/administrador.html";
             }
 
         }
@@ -142,7 +142,7 @@
             errorMsg.style.textAlign = "center";
         }
         if (localStorage.getItem("usuarioLogado") === "false") {
-            window.location.href = "Sistema-de-Hotel/index.html";
+            window.location.href = "/index.html";
         }
     });
 
