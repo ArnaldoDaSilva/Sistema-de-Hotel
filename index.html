@@ -70,9 +70,9 @@
             experiência inesquecível.
         </p>
         <div class="imagens">
-            <img src="imagens\1.jpg" alt="imagem de um quarto 1" />
-            <img src="imagens\2.jpg" alt=" imagem de um quarto 2" />
-            <img src="imagens\3.jpg" alt="imagem de um quarto 3" />
+            <img src="imagens\1.jpg" loading="lazy" alt="imagem de um quarto 1" />
+            <img src="imagens\2.jpg" loading="lazy" alt=" imagem de um quarto 2" />
+            <img src="imagens\3.jpg" loading="lazy" alt="imagem de um quarto 3" />
         </div>
         <button class="btn1">Saiba Mais <i class="fa fa-plus-circle"></i></button>
     </div>
@@ -87,12 +87,12 @@
         &copy; 2024 Hotel Paraíso de Moçambique. Todos os direitos reservados.
     </footer>
 </body>
-<script src="js\personalizacoes.js"></script>
-<script src="js\quartos.js"></script>
-<script src="js\card.js"></script>
-<script src="js\gestaodeContas.js"></script>
+<script defer src="js\personalizacoes.js"></script>
+<script defer src="js\quartos.js"></script>
+<script defer src="js\card.js"></script>
+<script defer src="js\gestaodeContas.js"></script>
 
-<script>
+<script defer>
     function gerarCodigoReserva() {
         const data = new Date();
         const timestamp = data.getTime(); // milissegundos únicos
