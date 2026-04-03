@@ -95,7 +95,7 @@ i {
 .Ap {
   margin: 0;
 
-  background-image: url("/imagens/7.jpg");
+  background-image: url("imagens\7.jpg");
   background-repeat: no-repeat;
 
   object-position: center top;
